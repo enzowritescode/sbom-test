@@ -1,0 +1,25 @@
+name: Snyk - Software Bill of Materials (SBOM)
+on: [release]
+
+env:
+  SBOM_FILE: snyk.json
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Generate SBOM
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: sbom
+          args: --format=cyclonedx1.5+json --all-projects > $SBOM_FILE
+      - uses: Shopify/upload-to-release@c77c9b3e5d288adaef98a7007bf92340ec6ce03b // v2.0.0
+        with:
+          name: Upload SBOM
+          path: $SBOM_FILE
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          content-type: application/json
