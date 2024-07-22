@@ -1,5 +1,7 @@
 name: Snyk - Software Bill of Materials (SBOM)
-on: [release]
+on:
+  release:
+    types: [published]
 
 jobs:
   security:
