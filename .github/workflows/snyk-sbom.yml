@@ -16,9 +16,10 @@ jobs:
         with:
           command: sbom
           args: --format=cyclonedx1.5+json --all-projects > snyk.json
-      - uses: Shopify/upload-to-release@c77c9b3e5d288adaef98a7007bf92340ec6ce03b # v2.0.0
+      - name: Upload SBOM
+        uses: Shopify/upload-to-release@c77c9b3e5d288adaef98a7007bf92340ec6ce03b # v2.0.0
         with:
-          name: Upload SBOM
+          name: sbom.json
           path: snyk.json
           repo-token: ${{ secrets.GH_TOKEN }}
           content-type: application/json
