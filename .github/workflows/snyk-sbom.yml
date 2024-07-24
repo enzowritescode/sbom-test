@@ -11,11 +11,12 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Generate SBOM
         uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # v0.4.0
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: sbom
-          args: --format=cyclonedx1.5+json --all-projects > sbom.json
+          args: --format=cyclonedx1.5+json --all-projects
       - name: Upload SBOM
         uses: Shopify/upload-to-release@c77c9b3e5d288adaef98a7007bf92340ec6ce03b # v2.0.0
         with:
